@@ -37,8 +37,9 @@ export const patches: ExtensionWebExports["patches"] = [
   {
     find: ".parseAutoModerationSystemMessage,",
     replace: {
-      match: /(?<=return{)(?=\.\.\.\i,allowLinks:)/,
-      replacement: "__highlightSearch:arguments[0].isSearchHit,"
+      match: /(?<=return\{)(?=channelId:\i,messageId:)/,
+      replacement:
+        "__highlightSearch:!arguments[0].channelId||!arguments[0].messageId||!('allowLinks' in arguments[0].renderOptions),"
     }
   }
 ];

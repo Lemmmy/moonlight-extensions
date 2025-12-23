@@ -7,7 +7,11 @@ addRule(
     order: -1,
     match: matchKeywords,
     parse(capture, parse, state) {
-      return [parse(capture[2], state), { type: "highlight", content: capture[1] }, parse(capture[3], state)];
+      const newState = { ...state, __highlightSearch: true };
+      return [parse(capture[2], newState), { type: "highlight", content: capture[1] }, parse(capture[3], newState)];
+    },
+    react(node, output, state) {
+      return node.content;
     }
   }),
   () => ({ type: "skip" })
