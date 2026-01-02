@@ -1,0 +1,3 @@
+[submodule "yomitan"]
+	path = yomitan
+	url = https://github.com/yomidevs/yomitan

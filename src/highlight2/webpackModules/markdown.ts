@@ -2,20 +2,24 @@ import { matchKeywords } from "@moonlight-mod/wp/highlight2_highlight";
 import { addRule, blacklistFromRuleset } from "@moonlight-mod/wp/markdown_markdown";
 
 addRule(
-  "highlightHighlight",
+  "highlight2Highlight",
   (rules) => ({
-    order: -1,
+    order: rules.text.order - 0.5,
     match: matchKeywords,
-    parse(capture, parse, state) {
+    parse(capture, recurseParse, state) {
       const newState = { ...state, __highlightSearch: true };
-      return [parse(capture[2], newState), { type: "highlight", content: capture[1] }, parse(capture[3], newState)];
-    },
-    react(node, output, state) {
-      return node.content;
+      return [
+        recurseParse(capture[2], newState),
+        {
+          type: "highlight",
+          content: capture[1]
+        },
+        recurseParse(capture[3], newState)
+      ];
     }
   }),
   () => ({ type: "skip" })
 );
 
-blacklistFromRuleset("INLINE_REPLY_RULES", "highlightHighlight");
-blacklistFromRuleset("EMBED_TITLE_RULES", "highlightHighlight");
+blacklistFromRuleset("INLINE_REPLY_RULES", "highlight2Highlight");
+blacklistFromRuleset("EMBED_TITLE_RULES", "highlight2Highlight");
